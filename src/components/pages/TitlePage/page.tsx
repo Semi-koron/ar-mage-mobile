@@ -1,5 +1,3 @@
-import Button from "../../feature/Button";
-
 function TitlePage() {
   return (
     <>
