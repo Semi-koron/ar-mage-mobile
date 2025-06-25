@@ -23,8 +23,9 @@ type GimickData = {
 const useWebsocket = (roomId: string) => {
   const [stage, setStage] = useState<StageData | null>(null);
   const [player, setPlayer] = useState<PlayerData | null>(null);
-  const [onOff, setOnOff] = useState<GimickData | null>(null);
+  const [onOff, setOnOff] = useState<boolean | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [cameraPermission, setCameraPermission] = useState<boolean | null>(null);
   const socketRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
@@ -56,8 +57,12 @@ const useWebsocket = (roomId: string) => {
             console.log("📬 Player data updated:", data.content);
             break;
           case "gimick":
-            setOnOff(data.content as GimickData);
-            console.log("📬 Gimick data updated:", data.content);
+            const gimickData = data.content as GimickData;
+            switch (gimickData.gimick) {
+              case "onOff":
+                setOnOff(gimickData.data);
+                console.log("📬 Gimick data updated:", gimickData);
+            }
             break;
           default:
             console.warn("⚠️ Unknown message type:", data.type);
@@ -90,6 +95,29 @@ const useWebsocket = (roomId: string) => {
     };
   }, [roomId]); // roomId が変更されるたびに WebSocket 接続を再作成
 
+  // カメラ許可リクエスト
+  const requestCameraPermission = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      stream.getTracks().forEach(track => track.stop());
+      setCameraPermission(true);
+      sendCameraOnRequest();
+    } catch (error) {
+      console.error("❌ Camera permission denied:", error);
+      setCameraPermission(false);
+    }
+  };
+
+  // カメラONリクエスト送信
+  const sendCameraOnRequest = () => {
+    const message = JSON.stringify({
+      type: "camera",
+      content: { status: "on" },
+      from: "mobile"
+    });
+    sendMessage(message);
+  };
+
   // メッセージ送信
   const sendMessage = (message: string) => {
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
@@ -99,7 +127,16 @@ const useWebsocket = (roomId: string) => {
     }
   };
 
-  return { stage, player, onOff, sendMessage, isConnected };
+  return { 
+    stage, 
+    player, 
+    onOff, 
+    sendMessage, 
+    isConnected, 
+    cameraPermission,
+    requestCameraPermission,
+    sendCameraOnRequest
+  };
 };
 
 export default useWebsocket;
