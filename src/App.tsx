@@ -1,12 +1,12 @@
 import "./App.css";
 
-import { ARCanvas, ARMarker } from "@artcom/react-three-arjs";
+import { ARMarker } from "@artcom/react-three-arjs";
 import useWebsocket from "./hooks/useWebsocket";
 import Stage from "./components/object/Stage";
 import Player from "./components/object/Player";
 
 function App() {
-  const { stage, player, onOff, isConnected } = useWebsocket("test");
+  const { stage, player, onOff } = useWebsocket("test");
   return (
     <>
       <ambientLight intensity={0.5} />
