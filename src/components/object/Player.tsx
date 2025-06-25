@@ -3,10 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useTexture } from "@react-three/drei";
 
-type BlockGrid = number[][][];
-
 interface PlayerProps {
-  grid: BlockGrid;
   position: [number, number, number];
   rotation: number; // 0=北, 1=東, 2=南, 3=西
 }
