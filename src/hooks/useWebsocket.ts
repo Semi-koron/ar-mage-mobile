@@ -25,15 +25,18 @@ const useWebsocket = (roomId: string) => {
   const [player, setPlayer] = useState<PlayerData | null>(null);
   const [onOff, setOnOff] = useState<boolean | null>(null);
   const [isConnected, setIsConnected] = useState(false);
-  const [cameraPermission, setCameraPermission] = useState<boolean | null>(null);
+  const [cameraPermission, setCameraPermission] = useState<boolean | null>(
+    null
+  );
   const socketRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
     if (!roomId) return;
 
     // WebSocket の URL
-    const baseUrl = "localhost:8080";
-    const protocol = "ws";
+
+    const baseUrl = import.meta.env.VITE_WS_BASE_URL || "localhost:8080";
+    const protocol = import.meta.env.VITE_WS_PROTOCOL || "ws";
     const socket = new WebSocket(`${protocol}://${baseUrl}/mobile/${roomId}`);
     socketRef.current = socket;
 
@@ -99,7 +102,7 @@ const useWebsocket = (roomId: string) => {
   const requestCameraPermission = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      stream.getTracks().forEach(track => track.stop());
+      stream.getTracks().forEach((track) => track.stop());
       setCameraPermission(true);
       sendCameraOnRequest();
     } catch (error) {
@@ -113,7 +116,7 @@ const useWebsocket = (roomId: string) => {
     const message = JSON.stringify({
       type: "camera",
       content: { status: "on" },
-      from: "mobile"
+      from: "mobile",
     });
     sendMessage(message);
   };
@@ -127,15 +130,15 @@ const useWebsocket = (roomId: string) => {
     }
   };
 
-  return { 
-    stage, 
-    player, 
-    onOff, 
-    sendMessage, 
-    isConnected, 
+  return {
+    stage,
+    player,
+    onOff,
+    sendMessage,
+    isConnected,
     cameraPermission,
     requestCameraPermission,
-    sendCameraOnRequest
+    sendCameraOnRequest,
   };
 };
 
