@@ -128,7 +128,7 @@ const Stage: React.FC<StageProps> = ({ grid, isOnOff }) => {
         row.forEach((blockType, x) => {
           const position: [number, number, number] = [
             x - Math.floor(row.length / 2), // x軸中央寄せ
-            y - Math.floor(grid.length / 2), // y軸中央寄せ
+            y + 3, // y軸中央寄せ
             z - Math.floor(layer.length / 2), // z軸中央寄せ
           ];
           const block = getBlock(blockType, position);
