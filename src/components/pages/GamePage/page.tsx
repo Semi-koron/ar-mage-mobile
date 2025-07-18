@@ -30,6 +30,9 @@ const GamePage = () => {
       cameraParametersUrl="/data/camera_para.dat"
       onCameraStreamReady={() => console.log("Camera ready")}
       onCameraStreamError={() => console.error("Camera error")}
+      onCreated={({ gl }) => {
+        gl.setSize(window.innerWidth, window.innerHeight);
+      }}
     >
       <ARGame />
     </ARCanvas>
