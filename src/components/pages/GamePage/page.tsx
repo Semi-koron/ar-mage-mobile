@@ -6,20 +6,6 @@ const GamePage = () => {
   useEffect(() => {
     // This effect runs once when the component mounts
     console.log("GamePage component mounted");
-    // AR.jsが初期化された後にマージンを修正
-    const fixLayout = () => {
-      // canvasのstyleを修正
-      const canvas = document.querySelector("canvas");
-      if (canvas) {
-        canvas.style.margin = "0";
-        canvas.style.top = "0";
-        canvas.style.left = "0";
-      }
-    };
-
-    fixLayout();
-    window.addEventListener("resize", fixLayout);
-
     return () => {
       // #arjs-videoであるvideo要素を削除する
       const videoElement: HTMLVideoElement | null =
@@ -36,8 +22,6 @@ const GamePage = () => {
         tracks.forEach((track) => track.stop());
         console.log("Camera stream stopped");
       }
-
-      window.removeEventListener("resize", fixLayout);
     };
   }, []);
   return (
@@ -48,6 +32,10 @@ const GamePage = () => {
       onCameraStreamError={() => console.error("Camera error")}
       onCreated={({ gl }) => {
         gl.setSize(window.innerWidth, window.innerHeight);
+        const canvas = document.querySelector("canvas");
+        if (canvas) {
+          canvas.style.marginLeft = "0";
+        }
       }}
     >
       <ARGame />
