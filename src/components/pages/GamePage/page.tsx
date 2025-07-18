@@ -32,10 +32,6 @@ const GamePage = () => {
       onCameraStreamError={() => console.error("Camera error")}
       onCreated={({ gl }) => {
         gl.setSize(window.innerWidth, window.innerHeight);
-        const canvas = document.querySelector("canvas");
-        if (canvas) {
-          canvas.style.marginLeft = "0";
-        }
       }}
     >
       <ARGame />
