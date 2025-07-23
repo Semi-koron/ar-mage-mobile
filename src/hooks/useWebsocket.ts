@@ -1,24 +1,10 @@
 import { useEffect, useState, useRef } from "react";
-
-type DataMessage = {
-  type: string;
-  content: StageData | PlayerData | GimickData;
-  from: string;
-};
-
-type StageData = {
-  stage: number[][][];
-};
-
-type PlayerData = {
-  position: [number, number, number];
-  rotation: number;
-};
-
-type GimickData = {
-  gimick: string;
-  data: boolean;
-};
+import type {
+  StageData,
+  PlayerData,
+  GimickData,
+  DataMessage,
+} from "../types/websocket";
 
 const useWebsocket = (roomId: string) => {
   const [stage, setStage] = useState<StageData | null>(null);
@@ -49,7 +35,7 @@ const useWebsocket = (roomId: string) => {
     // メッセージ受信
     socket.onmessage = (event) => {
       try {
-        const data: DataMessage = JSON.parse(event.data);
+        const data: DataMessage = event.data;
         switch (data.type) {
           case "stage":
             setStage(data.content as StageData);
