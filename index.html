@@ -21,7 +21,13 @@
       canvas {
         width: 100%;
         height: 100vh;
-        margin-left: 0 !important;
+      }
+      @media screen and (-webkit-min-device-pixel-ratio: 0) {
+        @supports (-webkit-appearance: none) {
+          canvas {
+            margin-left: 0 !important;
+          }
+        }
       }
     </style>
   </body>
