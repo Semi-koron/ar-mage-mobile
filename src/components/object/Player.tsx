@@ -22,7 +22,7 @@ const Player: React.FC<PlayerProps> = ({ position, rotation }) => {
   // メッシュの位置と回転を更新
   useFrame(() => {
     if (meshRef.current) {
-      meshRef.current.position.set(position[0], position[1] + 5, position[2]);
+      meshRef.current.position.set(position[0], position[1] + 4, position[2]);
       meshRef.current.rotation.y = -(rotation * Math.PI) / 2;
     }
   });
