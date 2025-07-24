@@ -35,7 +35,7 @@ const useWebsocket = (roomId: string) => {
     // メッセージ受信
     socket.onmessage = (event) => {
       try {
-        const data: DataMessage = event.data;
+        const data: DataMessage = JSON.parse(event.data);
         switch (data.type) {
           case "stage":
             setStage(data.content as StageData);
