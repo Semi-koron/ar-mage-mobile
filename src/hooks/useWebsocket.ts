@@ -35,30 +35,51 @@ const useWebsocket = (roomId: string) => {
     // メッセージ受信
     socket.onmessage = (event) => {
       try {
-        const data: DataMessage = JSON.parse(event.data);
-        switch (data.type) {
-          case "stage":
-            setStage(data.content as StageData);
-            console.log("📬 Stage data updated:", data.content);
-            break;
-          case "player":
-            setPlayer(data.content as PlayerData);
-            console.log("📬 Player data updated:", data.content);
-            break;
-          case "gimick":
-            const gimickData = data.content as GimickData;
-            switch (gimickData.gimick) {
-              case "onOff":
-                setOnOff(gimickData.data);
-                console.log("📬 Gimick data updated:", gimickData);
+        // 複数のJSONが連結されている場合に対応するため、改行で分割
+        const messages = event.data
+          .split("\n")
+          .filter((msg: string) => msg.trim() !== "");
+
+        messages.forEach((messageStr: string) => {
+          try {
+            const data: DataMessage = JSON.parse(messageStr);
+            console.log("📬 Message received:", data);
+            console.log("Message type:", data.type);
+
+            switch (data.type) {
+              case "stage":
+                setStage(data.content as StageData);
+                console.log("📬 Stage data updated:", data.content);
+                break;
+              case "player":
+                setPlayer(data.content as PlayerData);
+                console.log("📬 Player data updated:", data.content);
+                break;
+              case "gimick": {
+                const gimickData = data.content as GimickData;
+                switch (gimickData.gimick) {
+                  case "onOff":
+                    setOnOff(gimickData.data);
+                    console.log("📬 Gimick data updated:", gimickData);
+                    break;
+                }
+                break;
+              }
+              default:
+                console.warn("⚠️ Unknown message type:", data.type);
             }
-            break;
-          default:
-            console.warn("⚠️ Unknown message type:", data.type);
-        }
+          } catch (parseError) {
+            console.error(
+              "❌ Error parsing individual message:",
+              parseError,
+              "Message:",
+              messageStr
+            );
+          }
+        });
       } catch (error) {
         console.error(
-          "❌ Error parsing message:",
+          "❌ Error processing message:",
           error,
           "Message:",
           event.data
