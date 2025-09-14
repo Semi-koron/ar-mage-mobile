@@ -8,6 +8,9 @@ const ARGame = () => {
   const param = useParams();
 
   const { stage, player, onOff } = useWebsocket(param.roomCode || "test");
+
+  const deltaY = Math.floor(stage?.stage.length ? stage.stage.length / 2 : 0);
+  console.log("deltaY:", deltaY);
   return (
     <>
       <ambientLight intensity={0.5} />
@@ -29,7 +32,18 @@ const ARGame = () => {
           <Stage grid={stage.stage} isOnOff={onOff === null ? false : onOff} />
         )}
         {player && (
-          <Player position={player?.position} rotation={player?.rotation} />
+          <Player
+            position={
+              player
+                ? [
+                    player.position[0],
+                    player.position[1] + deltaY + 3,
+                    player.position[2],
+                  ]
+                : [0, 0, 0]
+            }
+            rotation={player?.rotation}
+          />
         )}
       </ARMarker>
     </>
