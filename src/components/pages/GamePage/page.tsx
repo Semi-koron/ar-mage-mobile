@@ -33,6 +33,7 @@ const GamePage = () => {
       onCreated={({ gl }) => {
         gl.setSize(window.innerWidth, window.innerHeight);
       }}
+      patternRatio={0.9}
     >
       <ARGame />
     </ARCanvas>

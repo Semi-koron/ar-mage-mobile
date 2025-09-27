@@ -20,7 +20,7 @@ const ARGame = () => {
       <ARMarker
         params={{ smooth: true }}
         type={"pattern"}
-        patternUrl={"/data/patt.hiro"}
+        patternUrl={"/data/pattern-logo.patt"}
         onMarkerFound={() => {
           console.log("Marker Found");
         }}
