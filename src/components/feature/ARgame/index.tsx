@@ -1,4 +1,3 @@
-import { ARMarker } from "@artcom/react-three-arjs";
 import { useParams } from "react-router-dom";
 import Player from "../../object/Player";
 import Stage from "../../object/Stage";
@@ -16,36 +15,26 @@ const ARGame = () => {
       <ambientLight intensity={0.5} />
       <pointLight position={[10, 10, 10]} />
 
-      {/* AR Marker with Barcode */}
-      <ARMarker
-        params={{ smooth: true }}
-        type={"pattern"}
-        patternUrl={"/data/pattern-logo.patt"}
-        onMarkerFound={() => {
-          console.log("Marker Found");
-        }}
-      >
-        <ambientLight intensity={0.3} />
-        <directionalLight position={[5, 5, 5]} intensity={0.8} />
-        <directionalLight position={[-3, 2, 1]} intensity={0.4} />
-        {stage !== null && (
-          <Stage grid={stage.stage} isOnOff={onOff === null ? false : onOff} />
-        )}
-        {player && (
-          <Player
-            position={
-              player
-                ? [
-                    player.position[0],
-                    player.position[1] + deltaY + 3,
-                    player.position[2],
-                  ]
-                : [0, 0, 0]
-            }
-            rotation={player?.rotation}
-          />
-        )}
-      </ARMarker>
+      <ambientLight intensity={0.3} />
+      <directionalLight position={[5, 5, 5]} intensity={0.8} />
+      <directionalLight position={[-3, 2, 1]} intensity={0.4} />
+      {stage !== null && (
+        <Stage grid={stage.stage} isOnOff={onOff === null ? false : onOff} />
+      )}
+      {player && (
+        <Player
+          position={
+            player
+              ? [
+                  player.position[0],
+                  player.position[1] + deltaY + 3,
+                  player.position[2],
+                ]
+              : [0, 0, 0]
+          }
+          rotation={player?.rotation}
+        />
+      )}
     </>
   );
 };

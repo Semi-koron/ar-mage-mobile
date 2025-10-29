@@ -1,6 +1,6 @@
 import { useEffect } from "react";
+import { ARCanvas } from "react-three-mindts";
 import ARGame from "../../feature/ARgame";
-import { ARCanvas } from "@artcom/react-three-arjs";
 
 const GamePage = () => {
   useEffect(() => {
@@ -25,16 +25,7 @@ const GamePage = () => {
     };
   }, []);
   return (
-    <ARCanvas
-      sourceType="webcam"
-      cameraParametersUrl="/data/camera_para.dat"
-      onCameraStreamReady={() => console.log("Camera ready")}
-      onCameraStreamError={() => console.error("Camera error")}
-      onCreated={({ gl }) => {
-        gl.setSize(window.innerWidth, window.innerHeight);
-      }}
-      patternRatio={0.9}
-    >
+    <ARCanvas markerUrl="./kyutxr-card.mind">
       <ARGame />
     </ARCanvas>
   );
