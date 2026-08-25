@@ -25,6 +25,10 @@
   },
   "dependencies": {
     "@artcom/react-three-arjs": "^0.5.5",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.3.1",
     "@react-spring/three": "^10.0.1",
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
